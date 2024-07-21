@@ -17,13 +17,16 @@ import java.util.UUID;
 @RequestMapping("/api/books")
 public class BookController {
 
-    @Autowired
-    BookService bookService;
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         Book newBook = bookService.create(book);
-        return new ResponseEntity<>(newBook, HttpStatus.OK);
+        return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
     @GetMapping

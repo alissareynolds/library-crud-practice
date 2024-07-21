@@ -14,8 +14,11 @@ import java.util.UUID;
 @Service
 public class BookService {
 
-    @Autowired
-    BookRepository bookRepository;
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public Book create(Book book) {
         Book newBook = new Book(book.getTitle(), book.getAuthor(), book.getGenre(), book.getNumberOfPages(), book.getRating(), book.getHasRead());
