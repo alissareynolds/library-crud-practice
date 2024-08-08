@@ -3,10 +3,8 @@ package com.example.library.service;
 import com.example.library.exceptions.BookNotFoundException;
 import com.example.library.model.Book;
 import com.example.library.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -60,22 +58,22 @@ public class BookService {
             throw new BookNotFoundException("A book with that id was not found.");
         }
         Book updatedBook = optionalBook.get();
-        if (updatedBook.getTitle() != null) {
+        if (book.getTitle() != null) {
             updatedBook.setTitle(book.getTitle());
         }
-        if (updatedBook.getAuthor() != null) {
+        if (book.getAuthor() != null) {
             updatedBook.setAuthor(book.getAuthor());
         }
-        if (updatedBook.getGenre() != null) {
+        if (book.getGenre() != null) {
             updatedBook.setGenre(book.getGenre());
         }
-        if (updatedBook.getNumberOfPages() != null) {
+        if (book.getNumberOfPages() != null) {
             updatedBook.setNumberOfPages(book.getNumberOfPages());
         }
-        if (updatedBook.getRating() != null) {
+        if (book.getRating() != null) {
             updatedBook.setRating(book.getRating());
         }
-        if (updatedBook.getHasRead() != null) {
+        if (book.getHasRead() != null) {
             updatedBook.setHasRead(book.getHasRead());
         }
         return bookRepository.save(updatedBook);
