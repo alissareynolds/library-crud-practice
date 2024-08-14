@@ -62,7 +62,7 @@ class BookControllerTest {
 
     @Test
     public void getBookById_shouldReturn404WhenBookNotFound() {
-        Mockito.when(mockBookService.findBookById(id)).thenThrow(new BookNotFoundException("A book with that id was not found."));
+        Mockito.when(mockBookService.findBookById(id)).thenThrow(new BookNotFoundException("A book with id: " + id + " was not found."));
         ResponseEntity<Book> response = bookController.getBookById(id);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -76,11 +76,25 @@ class BookControllerTest {
     }
 
     @Test
+    public void getBookByTitle_shouldReturn404WhenBookNotFound() {
+        Mockito.when(mockBookService.findBookByTitle("War and Peace")).thenThrow(new BookNotFoundException("A book with title: War and Peace was not found."));
+        ResponseEntity<Book> response = bookController.getBookByTitle("War and Peace");
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     public void updateBook_shouldReturnBookAndOKHttpStatus() {
         Mockito.when(mockBookService.updateBook(input2, recordWithId.getId())).thenReturn(recordWithId2);
         ResponseEntity<Book> response = bookController.updateBook(input2, recordWithId.getId());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(recordWithId2, response.getBody());
+    }
+
+    @Test
+    public void updateBook_shouldReturn404WhenBookNotFound() {
+        Mockito.when(mockBookService.findBookById(id)).thenThrow(new BookNotFoundException("A book with id: " + id + " was not found."));
+        ResponseEntity<Book> response = bookController.getBookById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
@@ -92,10 +106,24 @@ class BookControllerTest {
     }
 
     @Test
+    public void patchBookById_shouldReturn404WhenBookNotFound() {
+        Mockito.when(mockBookService.findBookById(id)).thenThrow(new BookNotFoundException("A book with id: " + id + " was not found."));
+        ResponseEntity<Book> response = bookController.getBookById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     public void deleteBookById_shouldReturnBookAndOKHttpStatus() {
         Mockito.when(mockBookService.deleteBookById(recordWithId.getId())).thenReturn(recordWithId);
         ResponseEntity<Book> response = bookController.deleteBookById(recordWithId.getId());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(recordWithId, response.getBody());
+    }
+
+    @Test
+    public void deleteBookById_shouldReturn404WhenBookNotFound() {
+        Mockito.when(mockBookService.findBookById(id)).thenThrow(new BookNotFoundException("A book with id: " + id + " was not found."));
+        ResponseEntity<Book> response = bookController.getBookById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

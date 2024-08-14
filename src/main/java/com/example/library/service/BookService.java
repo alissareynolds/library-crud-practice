@@ -30,7 +30,7 @@ public class BookService {
     public Book findBookById(UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with that id was not found.");
+            throw new BookNotFoundException("A book with id: " + id + " was not found.");
         }
         return optionalBook.get();
     }
@@ -38,7 +38,7 @@ public class BookService {
     public Book findBookByTitle(String title) {
         Optional<Book> optionalBook = bookRepository.findByTitle(title);
         if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with that title was not found.");
+            throw new BookNotFoundException("A book with title: " + title + " was not found.");
         }
         return optionalBook.get();
     }
@@ -46,7 +46,7 @@ public class BookService {
     public Book updateBook(Book book, UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with that id was not found.");
+            throw new BookNotFoundException("A book with id: " + id + " was not found.");
         }
         Book updatedBook = new Book(id, book.getTitle(), book.getAuthor(), book.getGenre(), book.getNumberOfPages(), book.getRating(), book.getHasRead());
         return bookRepository.save(updatedBook);
@@ -55,7 +55,7 @@ public class BookService {
     public Book patchBookById(Book book, UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with that id was not found.");
+            throw new BookNotFoundException("A book with id: " + id + " was not found.");
         }
         Book updatedBook = optionalBook.get();
         if (book.getTitle() != null) {
@@ -82,7 +82,7 @@ public class BookService {
     public Book deleteBookById(UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with that id was not found.");
+            throw new BookNotFoundException("A book with id: " + id + " was not found.");
         }
         bookRepository.delete(optionalBook.get());
         return optionalBook.get();

@@ -60,7 +60,7 @@ class BookServiceTest {
     public void findBookById_throwsExceptionWhenBookWasNotFound() {
        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(id));
-       assertEquals("A book with that id was not found.", exception.getMessage());
+       assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
     @Test
@@ -68,6 +68,13 @@ class BookServiceTest {
         Mockito.when(mockBookRepository.findByTitle(recordWithId.getTitle())).thenReturn(Optional.of(recordWithId));
         Book response = bookService.findBookByTitle(recordWithId.getTitle());
         assertEquals(recordWithId, response);
+    }
+
+    @Test
+    public void findBookByTitle_throwsExceptionWhenBookWasNotFound() {
+        Mockito.when(mockBookRepository.findByTitle("War and Peace")).thenReturn(Optional.empty());
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookByTitle("War and Peace"));
+        assertEquals("A book with title: War and Peace was not found.", exception.getMessage());
     }
 
 //    @Test
@@ -78,10 +85,31 @@ class BookServiceTest {
 //    }
 
     @Test
+    public void updateBook_throwsExceptionWhenBookWasNotFound() {
+        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(id));
+        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
+    }
+
+    @Test
+    public void patchBookById_throwsExceptionWhenBookWasNotFound() {
+        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(id));
+        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
+    }
+
+    @Test
     public void deleteBookById_shouldReturnDeletedBook() {
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Book response = bookService.deleteBookById(recordWithId.getId());
         assertEquals(recordWithId, response);
+    }
+
+    @Test
+    public void deleteBookById_throwsExceptionWhenBookWasNotFound() {
+        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(id));
+        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
 }
