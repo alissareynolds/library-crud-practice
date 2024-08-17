@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -66,7 +67,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBookByTitle() throws Exception {
-        Mockito.when(mockBookService.findBookByTitle("Fairy Tale")).thenReturn(new Book());
+        Mockito.when(mockBookService.findBookByTitle("Fairy Tale")).thenReturn(List.of(new Book()));
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/books/title/Fairy Tale").accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());

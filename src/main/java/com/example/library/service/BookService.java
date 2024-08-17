@@ -19,8 +19,7 @@ public class BookService {
     }
 
     public Book create(Book book) {
-        Book newBook = new Book(book.getTitle(), book.getAuthor(), book.getGenre(), book.getNumberOfPages(), book.getRating(), book.getHasRead());
-        return bookRepository.save(newBook);
+        return bookRepository.save(book);
     }
 
     public List<Book> getAllBooks() {
@@ -35,21 +34,17 @@ public class BookService {
         return optionalBook.get();
     }
 
-    public Book findBookByTitle(String title) {
-        Optional<Book> optionalBook = bookRepository.findByTitle(title);
-        if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with title: " + title + " was not found.");
-        }
-        return optionalBook.get();
-    }
+    public List<Book> findBookByTitle(String title) {
+        return bookRepository.findByTitle(title);
+    }// return list of books dont need optional .containsIgnoreCase should always return 200
 
     public Book updateBook(Book book, UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
             throw new BookNotFoundException("A book with id: " + id + " was not found.");
         }
-        Book updatedBook = new Book(id, book.getTitle(), book.getAuthor(), book.getGenre(), book.getNumberOfPages(), book.getRating(), book.getHasRead());
-        return bookRepository.save(updatedBook);
+        book.setId(id);
+        return bookRepository.save(book);
     }
 
     public Book patchBookById(Book book, UUID id) {
@@ -79,12 +74,7 @@ public class BookService {
         return bookRepository.save(updatedBook);
     }
 
-    public Book deleteBookById(UUID id) {
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        if (optionalBook.isEmpty()) {
-            throw new BookNotFoundException("A book with id: " + id + " was not found.");
-        }
-        bookRepository.delete(optionalBook.get());
-        return optionalBook.get();
+    public void deleteBookById(UUID id) {
+        bookRepository.deleteById(id);
     }
 }

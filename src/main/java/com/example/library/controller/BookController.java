@@ -44,14 +44,9 @@ public class BookController {
     }
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Book> getBookByTitle(@PathVariable String title) {
-        Book book;
-        try {
-            book = bookService.findBookByTitle(title);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(book, HttpStatus.OK);
+    public ResponseEntity<List<Book>> getBookByTitle(@PathVariable String title) {
+        List<Book> books = bookService.findBookByTitle(title);
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -78,13 +73,8 @@ public class BookController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Book> deleteBookById(@PathVariable UUID id) {
-        Book book;
-        try {
-            book = bookService.deleteBookById(id);
-        } catch (BookNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(book, HttpStatus.OK);
+        bookService.deleteBookById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
