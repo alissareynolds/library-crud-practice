@@ -5,7 +5,6 @@ import com.example.library.model.Book;
 import com.example.library.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -83,6 +82,13 @@ class BookServiceTest {
     public void updateBook_throwsExceptionWhenBookWasNotFound() {
         Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
         BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.updateBook(input, id));
+        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
+    }
+
+    @Test
+    public void patchBookById_throwsExceptionWhenBookWasNotFound() {
+        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.patchBookById(input, id));
         assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
@@ -180,13 +186,6 @@ class BookServiceTest {
         assertEquals(608, response.getNumberOfPages());
         assertEquals(3, response.getRating());
         assertEquals(false, response.getHasRead());
-    }
-
-    @Test
-    public void patchBookById_throwsExceptionWhenBookWasNotFound() {
-        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.patchBookById(input, id));
-        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
     @Test
