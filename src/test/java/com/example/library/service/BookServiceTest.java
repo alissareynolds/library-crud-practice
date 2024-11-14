@@ -40,65 +40,65 @@ class BookServiceTest {
     }
 
     @Test
-    public void getAllBooks_shouldReturnListOfBooks() {
+    public void getAll_shouldReturnListOfBooks() {
         List<Book> books = new ArrayList<>();
         books.add(input);
         books.add(input2);
         Mockito.when(mockBookRepository.findAll()).thenReturn(books);
-        List<Book> response = bookService.getAllBooks();
+        List<Book> response = bookService.getAll();
         assertEquals(books, response);
     }
 
     @Test
-    public void findBookById_shouldReturnBook() {
+    public void getById_shouldReturnBook() {
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
-        Book response = bookService.findBookById(recordWithId.getId());
+        Book response = bookService.getById(recordWithId.getId());
         assertEquals(recordWithId, response);
     }
 
     @Test
-    public void findBookById_throwsExceptionWhenBookWasNotFound() {
+    public void getById_throwsExceptionWhenBookWasNotFound() {
        Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
-       BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(id));
+       BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.getById(id));
        assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
     @Test
-    public void findBookByTitle_shouldReturnListOfBooks() {
+    public void getByTitle_shouldReturnListOfBooks() {
         Mockito.when(mockBookRepository.findByTitle(recordWithId.getTitle())).thenReturn(List.of(recordWithId));
-        List<Book> response = bookService.findBookByTitle(recordWithId.getTitle());
+        List<Book> response = bookService.getByTitle(recordWithId.getTitle());
         assertEquals(List.of(recordWithId), response);
     }
 
     @Test
-    public void updateBook_shouldReturnUpdatedBook() {
+    public void update_shouldReturnUpdatedBook() {
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenReturn(recordWithId);
-        Book response = bookService.updateBook(input2, recordWithId.getId());
+        Book response = bookService.update(input2, recordWithId.getId());
         assertEquals(recordWithId, response);
     }
 
     @Test
-    public void updateBook_throwsExceptionWhenBookWasNotFound() {
+    public void update_throwsExceptionWhenBookWasNotFound() {
         Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.updateBook(input, id));
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.update(input, id));
         assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
     @Test
-    public void patchBookById_throwsExceptionWhenBookWasNotFound() {
+    public void patch_throwsExceptionWhenBookWasNotFound() {
         Mockito.when(mockBookRepository.findById(id)).thenReturn(Optional.empty());
-        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.patchBookById(input, id));
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class, () -> bookService.patch(input, id));
         assertEquals("A book with id: " + id + " was not found.", exception.getMessage());
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedTitle() {
+    public void patch_shouldReturnUpdatedTitle() {
         Book input = new Book();
         input.setTitle("War and Peace");
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("War and Peace", response.getTitle());
         assertEquals("Stephen King", response.getAuthor());
@@ -109,12 +109,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedAuthor() {
+    public void patch_shouldReturnUpdatedAuthor() {
         Book input = new Book();
         input.setAuthor("Michael Crichton");
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("Fairy Tale", response.getTitle());
         assertEquals("Michael Crichton", response.getAuthor());
@@ -125,12 +125,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedGenre() {
+    public void patch_shouldReturnUpdatedGenre() {
         Book input = new Book();
         input.setGenre("Fiction");
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("Fairy Tale", response.getTitle());
         assertEquals("Stephen King", response.getAuthor());
@@ -141,12 +141,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedNumberOfPages() {
+    public void patch_shouldReturnUpdatedNumberOfPages() {
         Book input = new Book();
         input.setNumberOfPages(500);
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("Fairy Tale", response.getTitle());
         assertEquals("Stephen King", response.getAuthor());
@@ -157,12 +157,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedRating() {
+    public void patch_shouldReturnUpdatedRating() {
         Book input = new Book();
         input.setRating(4);
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("Fairy Tale", response.getTitle());
         assertEquals("Stephen King", response.getAuthor());
@@ -173,12 +173,12 @@ class BookServiceTest {
     }
 
     @Test
-    public void patchBookById_shouldReturnUpdatedHasRead() {
+    public void patch_shouldReturnUpdatedHasRead() {
         Book input = new Book();
         input.setHasRead(false);
         Mockito.when(mockBookRepository.findById(recordWithId.getId())).thenReturn(Optional.of(recordWithId));
         Mockito.when(mockBookRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
-        Book response = bookService.patchBookById(input, recordWithId.getId());
+        Book response = bookService.patch(input, recordWithId.getId());
         assertEquals(recordWithId.getId(), response.getId());
         assertEquals("Fairy Tale", response.getTitle());
         assertEquals("Stephen King", response.getAuthor());
@@ -189,8 +189,8 @@ class BookServiceTest {
     }
 
     @Test
-    public void deleteBookById_callsRepositoryDeleteMethod() {
-        bookService.deleteBookById(id);
+    public void delete_callsRepositoryDeleteMethod() {
+        bookService.delete(id);
         Mockito.verify(mockBookRepository).deleteById(id);
     }
 

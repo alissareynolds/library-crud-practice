@@ -28,15 +28,6 @@ public class Book {
 
     private Boolean hasRead;
 
-    public Book(String title, String author, String genre, Integer numberOfPages, Integer rating, Boolean hasRead) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        this.numberOfPages = numberOfPages;
-        this.rating = rating;
-        this.hasRead = hasRead;
-    }
-
     public UUID getId() {
         return id;
     }

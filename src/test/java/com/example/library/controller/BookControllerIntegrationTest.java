@@ -7,18 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -59,7 +56,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBookById() throws Exception {
-        Mockito.when(mockBookService.findBookById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(new Book());
+        Mockito.when(mockBookService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(new Book());
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/books/59c47568-fde0-4dd7-9aef-03db6a962810").accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
@@ -67,7 +64,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBookByTitle() throws Exception {
-        Mockito.when(mockBookService.findBookByTitle("Fairy Tale")).thenReturn(List.of(new Book()));
+        Mockito.when(mockBookService.getByTitle("Fairy Tale")).thenReturn(List.of(new Book()));
         mvc.perform(MockMvcRequestBuilders
                 .get("/api/books/title/Fairy Tale").accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
@@ -75,7 +72,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void updateBook() throws Exception {
-        Mockito.when(mockBookService.findBookById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
+        Mockito.when(mockBookService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
         mvc.perform( MockMvcRequestBuilders
                         .put("/api/books/59c47568-fde0-4dd7-9aef-03db6a962810")
                         .content(asJsonString(book))
@@ -86,7 +83,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void patchBook() throws Exception {
-        Mockito.when(mockBookService.findBookById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
+        Mockito.when(mockBookService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
         mvc.perform( MockMvcRequestBuilders
                         .patch("/api/books/59c47568-fde0-4dd7-9aef-03db6a962810")
                         .content(asJsonString(book))
@@ -97,7 +94,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void deleteBookById() throws Exception {
-        Mockito.when(mockBookService.findBookById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
+        Mockito.when(mockBookService.getById(UUID.fromString("59c47568-fde0-4dd7-9aef-03db6a962810"))).thenReturn(book);
         mvc.perform( MockMvcRequestBuilders
                         .delete("/api/books/delete/59c47568-fde0-4dd7-9aef-03db6a962810")
                         .content(asJsonString(book))

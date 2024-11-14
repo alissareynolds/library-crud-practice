@@ -22,11 +22,11 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
-    public Book findBookById(UUID id) {
+    public Book getById(UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
             throw new BookNotFoundException("A book with id: " + id + " was not found.");
@@ -34,11 +34,11 @@ public class BookService {
         return optionalBook.get();
     }
 
-    public List<Book> findBookByTitle(String title) {
+    public List<Book> getByTitle(String title) {
         return bookRepository.findByTitle(title);
-    }// return list of books dont need optional .containsIgnoreCase should always return 200
+    }
 
-    public Book updateBook(Book book, UUID id) {
+    public Book update(Book book, UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
             throw new BookNotFoundException("A book with id: " + id + " was not found.");
@@ -47,7 +47,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book patchBookById(Book book, UUID id) {
+    public Book patch(Book book, UUID id) {
         Optional<Book> optionalBook = bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
             throw new BookNotFoundException("A book with id: " + id + " was not found.");
@@ -74,7 +74,7 @@ public class BookService {
         return bookRepository.save(updatedBook);
     }
 
-    public void deleteBookById(UUID id) {
+    public void delete(UUID id) {
         bookRepository.deleteById(id);
     }
 }

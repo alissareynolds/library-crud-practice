@@ -28,7 +28,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> books = bookService.getAllBooks();
+        List<Book> books = bookService.getAll();
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class BookController {
     public ResponseEntity<Book> getBookById(@PathVariable UUID id) {
        Book book;
        try {
-           book = bookService.findBookById(id);
+           book = bookService.getById(id);
        } catch (BookNotFoundException e) {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
        }
@@ -45,7 +45,7 @@ public class BookController {
 
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Book>> getBookByTitle(@PathVariable String title) {
-        List<Book> books = bookService.findBookByTitle(title);
+        List<Book> books = bookService.getByTitle(title);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
@@ -53,7 +53,7 @@ public class BookController {
     public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable UUID id) {
         Book newBook;
         try {
-            newBook = bookService.updateBook(book, id);
+            newBook = bookService.update(book, id);
         } catch (BookNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,10 +61,10 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Book> patchBookById(@RequestBody Book book, @PathVariable UUID id) {
+    public ResponseEntity<Book> patchBook(@RequestBody Book book, @PathVariable UUID id) {
         Book newBook;
         try {
-            newBook = bookService.patchBookById(book, id);
+            newBook = bookService.patch(book, id);
         } catch (BookNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -72,8 +72,8 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Book> deleteBookById(@PathVariable UUID id) {
-        bookService.deleteBookById(id);
+    public ResponseEntity<Book> deleteBook(@PathVariable UUID id) {
+        bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
